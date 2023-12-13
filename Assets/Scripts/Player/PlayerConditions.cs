@@ -8,6 +8,7 @@ public class Condition
     [HideInInspector]
     public int currentValue;
     public int startValue;
+    public int addValue;
 
     public void Add(int newValue)
     {

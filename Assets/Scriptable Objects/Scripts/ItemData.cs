@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum ItemType
 {
@@ -20,6 +21,7 @@ public enum StatsType
 public class ItemDataStat
 {
     public StatsType type;
+    public Sprite icon;
     public int value;
 }
 

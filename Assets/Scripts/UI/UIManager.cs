@@ -18,7 +18,6 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         player = PlayerConditions.instance;
-        compareGold = player.gold.currentValue;
     }
 
     private void Update()
@@ -30,13 +29,14 @@ public class UIManager : MonoBehaviour
 
     public void StatsUpdate()
     {
-        AttackText.text = player.strikingPower.currentValue.ToString();
-        DefenseText.text = player.defensivePower.currentValue.ToString();
-        HealthText.text = player.healthPoint.currentValue.ToString();
+        AttackText.text = player.strikingPower.currentValue.ToString() + $" (+<color=red>{player.strikingPower.addValue.ToString()}</color>) ";
+        DefenseText.text = player.defensivePower.currentValue.ToString() + $" (+<color=red>{player.defensivePower.addValue.ToString()}</color>) ";
+        HealthText.text = player.healthPoint.currentValue.ToString() + $" (+<color=red>{player.healthPoint.addValue.ToString()}</color>) ";
     }
 
     public void GoldUpdate()
     {
-        GoldText.text = player.gold.currentValue.ToString();
+        compareGold = player.gold.currentValue;
+        GoldText.text = compareGold.ToString();
     }
 }
