@@ -33,6 +33,7 @@ public class ItemData : ScriptableObject
     public string description;
     public ItemType type;
     public Sprite icon;
+    public int value;
 
     [Header("ItemStats")]
     public ItemDataStat[] stats;
