@@ -29,6 +29,8 @@ public class Inventory : MonoBehaviour
     private PlayerConditions player;
 
     public ItemData testItem;
+    public ItemData testItem2;
+    public ItemData testItem3;
 
     public static Inventory instance;
     private void Awake()
@@ -50,6 +52,8 @@ public class Inventory : MonoBehaviour
         }
 
         AddItem(testItem);
+        AddItem(testItem2);
+        AddItem(testItem3);
     }
 
     public void AddItem(ItemData item)
@@ -104,26 +108,31 @@ public class Inventory : MonoBehaviour
     }
 
     // 아이템 장착시
-    public void EquipItem(int index)
+    public void EquipItem()
     {
+        if (uiSlot[selcetedItemIndex].equipIcon.gameObject.activeSelf == true)  // 이미 장착했는지 체크
+            return;
+
         for (int i = 0; i < selectedItem.item.stats.Length; i++)
         {
             if (selectedItem.item.stats[i].type == StatsType.ATK)
             {
-                player.strikingPower.addValue += selectedItem.item.stats[i].value;
-                player.strikingPower.currentValue += player.strikingPower.addValue;
+                player.strikingPower.SaveAddValue(selectedItem.item.stats[i].value);
+                player.strikingPower.Add(player.strikingPower.addValue);
             }
             else if (selectedItem.item.stats[i].type == StatsType.DEF)
             {
-                player.defensivePower.addValue += selectedItem.item.stats[i].value;
-                player.defensivePower.currentValue += player.defensivePower.addValue;
+                player.defensivePower.SaveAddValue(selectedItem.item.stats[i].value);
+                player.defensivePower.Add(player.defensivePower.addValue);
             }
             else if (selectedItem.item.stats[i].type == StatsType.HP)
             {
-                player.healthPoint.addValue += selectedItem.item.stats[i].value;
-                player.healthPoint.currentValue += player.healthPoint.addValue;
+                player.healthPoint.SaveAddValue(selectedItem.item.stats[i].value);
+                player.healthPoint.Add(player.healthPoint.addValue);
             }
         }
+        uiSlot[selcetedItemIndex].equipIcon.gameObject.SetActive(true);
+        Debug.Log(selcetedItemIndex);
         EquipScreen.gameObject.SetActive(false);
     }
 

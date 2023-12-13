@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -38,5 +39,10 @@ public class UIManager : MonoBehaviour
     {
         compareGold = player.gold.currentValue;
         GoldText.text = compareGold.ToString();
+    }
+
+    public void OnEquipButton()
+    {
+        Inventory.instance.EquipItem();
     }
 }

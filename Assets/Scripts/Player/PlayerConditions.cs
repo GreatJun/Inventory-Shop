@@ -19,6 +19,11 @@ public class Condition
     {
         currentValue -= newValue;
     }
+
+    public void SaveAddValue(int newValue)
+    {
+        addValue += newValue;
+    }
 }
 
 public class PlayerConditions : MonoBehaviour

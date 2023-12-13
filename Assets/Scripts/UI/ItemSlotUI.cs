@@ -15,6 +15,7 @@ public class ItemSlotUI : MonoBehaviour
 
     private void OnEnable()
     {
+        equipIcon.color = Color.red;
         equipIcon.enabled = equipped;
     }
 
@@ -34,16 +35,6 @@ public class ItemSlotUI : MonoBehaviour
     public void OnItemClickButton()
     {
         Inventory.instance.SelectItem(index);
-    }
-
-    public void OnEquipButton()
-    {
-        if (equipIcon.gameObject.activeSelf == true)
-            return;
-
-        Inventory.instance.EquipItem(index);
-        equipIcon.color = Color.red;
-        equipIcon.gameObject.SetActive(true);
     }
 
     public void OnCloseEquipButton()
