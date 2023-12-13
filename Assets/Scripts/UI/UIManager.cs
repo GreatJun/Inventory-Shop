@@ -45,4 +45,9 @@ public class UIManager : MonoBehaviour
     {
         Inventory.instance.EquipItem();
     }
+
+    public void OnReleaseButton()
+    {
+        Inventory.instance.ReleaseItem();
+    }
 }

@@ -24,6 +24,11 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI selectedItemTypeValue;
     public Image selectedItemTypeIcon;
 
+    [Header("Item EquipCheck")]
+    public Text equipText;
+    public Button equipButton;
+    public Button releaseButton;
+
     public Image EquipScreen;
 
     private PlayerConditions player;
@@ -86,6 +91,10 @@ public class Inventory : MonoBehaviour
         if (slots[index].item == null) 
             return;
 
+        // 버튼 닫아두기
+        equipButton.gameObject.SetActive(false);
+        releaseButton.gameObject.SetActive(false);
+
         EquipScreen.gameObject.SetActive(true);
 
         selectedItem = slots[index];
@@ -97,6 +106,18 @@ public class Inventory : MonoBehaviour
 
         selectedItemTypeName.text = string.Empty;
         selectedItemTypeValue.text = string.Empty;
+
+        // 장착? 해제? 체크
+        if (uiSlot[selcetedItemIndex].equipIcon.gameObject.activeSelf == true)
+        {
+            equipText.text = "해제 하시겠습니까?";
+            releaseButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            equipText.text = "장착 하시겠습니까?";
+            equipButton.gameObject.SetActive(true);
+        }
 
         selectedItemTypeIcon.color = Color.black;
         for (int i = 0; i < selectedItem.item.stats.Length; i++)
@@ -110,8 +131,8 @@ public class Inventory : MonoBehaviour
     // 아이템 장착시
     public void EquipItem()
     {
-        if (uiSlot[selcetedItemIndex].equipIcon.gameObject.activeSelf == true)  // 이미 장착했는지 체크
-            return;
+        //if (uiSlot[selcetedItemIndex].equipIcon.gameObject.activeSelf == true)  // 이미 장착했는지 체크
+            //return;
 
         for (int i = 0; i < selectedItem.item.stats.Length; i++)
         {
@@ -131,8 +152,33 @@ public class Inventory : MonoBehaviour
                 player.healthPoint.Add(player.healthPoint.addValue);
             }
         }
+
         uiSlot[selcetedItemIndex].equipIcon.gameObject.SetActive(true);
-        Debug.Log(selcetedItemIndex);
+        EquipScreen.gameObject.SetActive(false);
+    }
+
+    public void ReleaseItem()
+    {
+        for (int i = 0; i < selectedItem.item.stats.Length; i++)
+        {
+            if (selectedItem.item.stats[i].type == StatsType.ATK)
+            {
+                player.strikingPower.Subtract(player.strikingPower.addValue);
+                player.strikingPower.SaveSubtractValue(selectedItem.item.stats[i].value);
+            }
+            else if (selectedItem.item.stats[i].type == StatsType.DEF)
+            {
+                player.defensivePower.Subtract(player.defensivePower.addValue);
+                player.defensivePower.SaveSubtractValue(selectedItem.item.stats[i].value);
+            }
+            else if (selectedItem.item.stats[i].type == StatsType.HP)
+            {
+                player.healthPoint.Subtract(player.healthPoint.addValue);
+                player.healthPoint.SaveSubtractValue(selectedItem.item.stats[i].value);
+            }
+        }
+
+        uiSlot[selcetedItemIndex].equipIcon.gameObject.SetActive(false);
         EquipScreen.gameObject.SetActive(false);
     }
 
