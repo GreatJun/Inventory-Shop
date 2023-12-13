@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class Shop : MonoBehaviour
     public ItemData BoneWeapon;
     public ItemData ClamArmor;
     public ItemData FourClover;
+
+    public Image buyScreen;
+    public Image buyFailScreen;
 
     Inventory inventory;
     PlayerConditions player;
@@ -21,32 +25,34 @@ public class Shop : MonoBehaviour
     public void BuySwordItem()
     {
         GoldCheck(FireIceSword);
-        inventory.AddItem(FireIceSword);
     }
 
     public void BuyBoneItem()
     {
         GoldCheck(BoneWeapon);
-        inventory.AddItem(BoneWeapon);
     }
 
     public void BuyClamItem()
     {
-        GoldCheck(FourClover);
-        inventory.AddItem(ClamArmor);
+        GoldCheck(ClamArmor);
     }
 
     public void BuyCloverItem()
     { 
         GoldCheck(FourClover);
-        inventory.AddItem(FourClover);
     }
 
     private void GoldCheck(ItemData item)
     {
         if (player.gold.currentValue < item.value)
+        {
+            buyFailScreen.gameObject.SetActive(true);
             return;
+        }
 
         player.gold.currentValue -= item.value;
+        Debug.Log(player.gold.currentValue);
+        inventory.AddItem(item);
+        buyScreen.gameObject.SetActive(true);
     }
 }

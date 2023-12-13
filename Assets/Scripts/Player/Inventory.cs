@@ -28,6 +28,7 @@ public class Inventory : MonoBehaviour
     public Text equipText;
     public Button equipButton;
     public Button releaseButton;
+    public Image reduplicationCheck;
 
     public Image EquipScreen;
 
@@ -131,29 +132,37 @@ public class Inventory : MonoBehaviour
     // 아이템 장착시
     public void EquipItem()
     {
-        //if (uiSlot[selcetedItemIndex].equipIcon.gameObject.activeSelf == true)  // 이미 장착했는지 체크
-            //return;
 
         for (int i = 0; i < selectedItem.item.stats.Length; i++)
         {
-            if (selectedItem.item.stats[i].type == StatsType.ATK)
+            if (selectedItem.item.stats[i].type == StatsType.ATK && player.weapon.equipCheck == false)
             {
                 player.strikingPower.SaveAddValue(selectedItem.item.stats[i].value);
                 player.strikingPower.Add(player.strikingPower.addValue);
+                player.weapon.EquipItem();
+                uiSlot[selcetedItemIndex].equipIcon.gameObject.SetActive(true);
             }
-            else if (selectedItem.item.stats[i].type == StatsType.DEF)
+            else if (selectedItem.item.stats[i].type == StatsType.DEF && player.armor.equipCheck == false)
             {
                 player.defensivePower.SaveAddValue(selectedItem.item.stats[i].value);
                 player.defensivePower.Add(player.defensivePower.addValue);
+                player.armor.EquipItem();
+                uiSlot[selcetedItemIndex].equipIcon.gameObject.SetActive(true);
             }
-            else if (selectedItem.item.stats[i].type == StatsType.HP)
+            else if (selectedItem.item.stats[i].type == StatsType.HP && player.health.equipCheck == false)
             {
                 player.healthPoint.SaveAddValue(selectedItem.item.stats[i].value);
                 player.healthPoint.Add(player.healthPoint.addValue);
+                player.health.EquipItem();
+                uiSlot[selcetedItemIndex].equipIcon.gameObject.SetActive(true);
+            }
+            else
+            {
+                reduplicationCheck.gameObject.SetActive(true);
             }
         }
 
-        uiSlot[selcetedItemIndex].equipIcon.gameObject.SetActive(true);
+        //uiSlot[selcetedItemIndex].equipIcon.gameObject.SetActive(true);
         EquipScreen.gameObject.SetActive(false);
     }
 
@@ -165,16 +174,19 @@ public class Inventory : MonoBehaviour
             {
                 player.strikingPower.Subtract(player.strikingPower.addValue);
                 player.strikingPower.SaveSubtractValue(selectedItem.item.stats[i].value);
+                player.weapon.ReleaseItem();
             }
             else if (selectedItem.item.stats[i].type == StatsType.DEF)
             {
                 player.defensivePower.Subtract(player.defensivePower.addValue);
                 player.defensivePower.SaveSubtractValue(selectedItem.item.stats[i].value);
+                player.armor.ReleaseItem();
             }
             else if (selectedItem.item.stats[i].type == StatsType.HP)
             {
                 player.healthPoint.Subtract(player.healthPoint.addValue);
                 player.healthPoint.SaveSubtractValue(selectedItem.item.stats[i].value);
+                player.health.ReleaseItem();
             }
         }
 
